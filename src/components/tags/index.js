@@ -1,21 +1,42 @@
 import React, { Component } from "react";
 import {
-  View,
-  Text
+  ScrollView,
 } from 'react-native'
+import { connect } from 'react-redux'
+import { getRandomTags } from '../../actions/tagsActions'
+import Loader from '../shared/loader'
+import ListData from './listData'
+
+import axios from 'axios'
+
 class Tags extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam('tagsTitle', 'Tags'),
+      title: navigation.getParam('tagTitle', 'Tags'),
     };
+  }
+  constructor() {
+    super();
+  }
+
+  componentDidMount(){
+    this.props.getRandomTags();
   }
 
   render(){
     return(
-      <View>
-        <Text>Tags list</Text>
-      </View>
+      <ScrollView>
+        {this.props.tags.length > 0 ? <ListData listData={this.props.tags} navigation={this.props.navigation}/> : <Loader/>}
+      </ScrollView>
     )
   }
 }
-export default Tags
+
+
+function mapStateToProps(state) {
+  return {
+    tags: state.tags
+  }
+}
+
+export default connect(mapStateToProps, {getRandomTags})(Tags)

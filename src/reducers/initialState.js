@@ -1,3 +1,6 @@
 export default {
-  quotations: []
+  quotations: [],
+  tags: [],
+  // profile: {},
+  // user: {}
 }
